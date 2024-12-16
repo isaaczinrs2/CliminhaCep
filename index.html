@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="cep.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>CliminhaCep</title>
+</head>
+<body>
+    <header>
+        <h1>CliminhaCep <i class="fa-solid fa-sun"></i></h1>
+    </header>
+    <main>
+        <div class="search-bar">
+            <label><input type="number" maxlength="8" minlength="1" id="CEP" placeholder="Digite seu CEP"/></label>
+            <button id="env"><i class="fa fa-search"></i></button>
+        </div>
+        
+        <section class="rst" id="section-rst">
+            <div class="container">
+                <div class="info-clima">
+                    <p id="descricao-clima"></p> <!-- Descrição do clima (ex: nublado) -->
+                    <img id="icone-clima" src="" alt="Ícone do Clima" class="clima-img">
+                  
+                    <div class="clima-info">
+                        <p id="cidade-bairro"></p> <!-- Aqui aparecerá cidade e bairro -->
+                        <p id="clima-principal"></p> <!-- Temperatura principal -->
+                        <p id="descricao-clima"></p> <!-- Descrição do clima (ex: nublado) -->
+                        <p id="SensClima"></p>
+                        <p id="temp-min-max"></p>
+                    </div>
+                </div>
+                <div class="detalhes">
+                    <div class="info-box" id="vento"> Vento: --</div>
+                    <div class="info-box" id="umidade"> Umidade: --</div>
+                    <div class="info-box" id="pressao"> Pressão: --</div>
+                    <div class="info-box" id="visibilidade"> Visibilidade: --</div>
+                </div>
+                
+                
+                
+            </div>
+        </section>
+        
+    </main>
+    <footer></footer>
+</body>
+</html>
