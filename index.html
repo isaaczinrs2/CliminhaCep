@@ -1,51 +1,167 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaCEP Premium 🌈</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="cep.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <title>CliminhaCep</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>CliminhaCep <i class="fa-solid fa-sun"></i></h1>
-    </header>
-    <main>
-        <div class="search-bar">
-            <label><input type="number" maxlength="8" minlength="1" id="CEP" placeholder="Digite seu CEP"/></label>
-            <button id="env"><i class="fa fa-search"></i></button>
-        </div>
-        
-        <section class="rst" id="section-rst">
-            <div class="container">
-                <div class="info-clima">
-                    <p id="descricao-clima"></p> <!-- Descrição do clima (ex: nublado) -->
-                    <img id="icone-clima" src="" alt="Ícone do Clima" class="clima-img">
-                  
-                    <div class="clima-info">
-                        <p id="cidade-bairro"></p> <!-- Aqui aparecerá cidade e bairro -->
-                        <p id="clima-principal"></p> <!-- Temperatura principal -->
-                        <p id="descricao-clima"></p> <!-- Descrição do clima (ex: nublado) -->
-                        <p id="SensClima"></p>
-                        <p id="temp-min-max"></p>
+    <div class="background-animation"></div>
+    
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">Clima<span>CEP</span> <i class="fas fa-cloud-sun"></i></h1>
+                <div class="theme-switch">
+                    <i class="fas fa-moon"></i>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <i class="fas fa-sun"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- Barra de busca (sempre visível) -->
+            <div class="search-container">
+                <div class="search-card">
+                    <div class="search-input-group">
+                        <input type="text" id="CEP" placeholder="Digite seu CEP" maxlength="9" autocomplete="off">
+                        <button id="searchBtn" class="search-button">
+                            <i class="fas fa-search"></i>
+                            <span>Buscar</span>
+                        </button>
+                        <button id="locationBtn" class="location-button" title="Usar minha localização">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                    <p class="input-hint">Exemplo: 01001000 ou 01001-000</p>
+                </div>
+            </div>
+
+            <!-- Container de clima (inicialmente escondido) -->
+            <div class="weather-container hidden">
+                <!-- Skeleton Loading (escondido inicialmente) -->
+                <div class="current-weather loading hidden">
+                    <div class="location-info">
+                        <div class="skeleton skeleton-text skeleton-title"></div>
+                        <div class="skeleton skeleton-text skeleton-subtitle"></div>
+                    </div>
+                    <div class="weather-main">
+                        <div class="skeleton skeleton-icon"></div>
+                        <div class="temp-container">
+                            <div class="skeleton skeleton-text skeleton-temp"></div>
+                            <div class="skeleton skeleton-text skeleton-desc"></div>
+                        </div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="detail-card">
+                            <div class="skeleton skeleton-icon-sm"></div>
+                            <div class="detail-text">
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text"></div>
+                            </div>
+                        </div>
+                        <!-- Outros cards skeleton aqui -->
                     </div>
                 </div>
-                <div class="detalhes">
-                    <div class="info-box" id="vento"> Vento: --</div>
-                    <div class="info-box" id="umidade"> Umidade: --</div>
-                    <div class="info-box" id="pressao"> Pressão: --</div>
-                    <div class="info-box" id="visibilidade"> Visibilidade: --</div>
+
+                <!-- Clima atual (escondido inicialmente) -->
+                <div class="current-weather hidden">
+                    <div class="location-info">
+                        <h2 id="current-location"><i class="fas fa-map-marker-alt"></i> <span id="cidade-bairro">--</span></h2>
+                        <p id="current-date">--</p>
+                    </div>
+                    
+                    <div class="weather-main">
+                        <div class="weather-icon">
+                            <img id="current-weather-icon" src="" alt="Weather Icon">
+                            <p id="current-weather-desc">--</p>
+                        </div>
+                        
+                        <div class="temp-container">
+                            <div class="main-temp" id="current-temp">--°</div>
+                            <div class="temp-details">
+                                <p id="feels-like">Sensação: --°</p>
+                                <p id="temp-range">Máx --° • Mín --°</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-details">
+                        <div class="detail-card wind-card">
+                            <i class="fas fa-wind"></i>
+                            <div class="detail-text">
+                                <p>Vento</p>
+                                <p id="wind-speed">-- km/h</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card humidity-card">
+                            <i class="fas fa-tint"></i>
+                            <div class="detail-text">
+                                <p>Umidade</p>
+                                <p id="humidity">--%</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card pressure-card">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <div class="detail-text">
+                                <p>Pressão</p>
+                                <p id="pressure">-- hPa</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card visibility-card">
+                            <i class="fas fa-eye"></i>
+                            <div class="detail-text">
+                                <p>Visibilidade</p>
+                                <p id="visibility">-- km</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                
-                
+
+                <!-- Previsão 5 dias (escondido inicialmente) -->
+                <div class="forecast-section hidden">
+                    <h3 class="section-title">Previsão para os próximos 5 dias</h3>
+                    <div class="forecast-days">
+                        <!-- Preenchido pelo JavaScript -->
+                    </div>
+                    <div class="forecast-chart">
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Previsão horária (escondido inicialmente) -->
+                <div class="hourly-forecast hidden">
+                    <h3 class="section-title">Previsão horária</h3>
+                    <div class="hourly-scroll">
+                        <!-- Preenchido pelo JavaScript -->
+                    </div>
+                </div>
             </div>
-        </section>
-        
-    </main>
-    <footer></footer>
+        </main>
+
+        <footer class="app-footer">
+            <p>© <span id="current-year"></span> ClimaCEP Premium | Dados por OpenWeatherMap e ViaCEP</p>
+            <p class="api-status">
+                <i class="fas fa-circle"></i> 
+                <span id="connection-status">Conectando...</span>
+            </p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    
+    <script src="app.js"></script>
 </body>
 </html>
