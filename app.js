@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hourlyContainer.innerHTML = '';
         
         // Pegar as próximas 12 horas
-        const next12Hours = forecastData.list.slice(0, 4);
+        const next12Hours = forecastData.list.slice(0, 5);
         
         next12Hours.forEach((hour, index) => {
             const date = new Date(hour.dt * 1000);
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: 'Sensação Térmica (°C)',
                         data: feelsLike,
                         borderColor: '#4cc9f0',
-                        backgroundColor: 'rgba(76, 201, 240, 0.1)',
+                        backgroundColor: 'rgba(0, 195, 255, 0.1)',
                         borderWidth: 3,
                         tension: 0.4,
                         fill: true
