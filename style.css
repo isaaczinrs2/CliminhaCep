@@ -338,13 +338,17 @@ input:checked + .slider:before {
     align-items: center;
 }
 
-.weather-icon img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
+.weather-icon-fa {
+    font-size: 4rem;
+    margin: 0.5rem 0;
+    color: var(--primary-color);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     animation: pulse 2s infinite alternate;
 }
+
+.weather-icon-fa.sunny { color: #fbbf24; } 
+.weather-icon-fa.rainy { color: #60a5fa; } 
+.weather-icon-fa.snowy { color: #e0e7ff; } 
 
 @keyframes pulse {
     from {
@@ -547,6 +551,8 @@ input:checked + .slider:before {
     height: 300px;
     margin-top: var(--space-lg);
 }
+
+
 
 /* Hourly Forecast */
 .hourly-forecast {
